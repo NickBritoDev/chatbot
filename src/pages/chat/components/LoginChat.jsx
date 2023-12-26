@@ -27,12 +27,21 @@ export default function LoginChat () {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
 
+  if (localStorage.getItem('TKC') && !window.location.href.includes('token=')) {
+    const currentUrl = window.location.href
+    const separator = currentUrl.includes('?') ? '&' : '?'
+    const newUrl = `${currentUrl}${separator}token=${localStorage.getItem('TKC')}`
+    window.location.href = newUrl
+    return
+  }
+
   const handleLogin = async (payload) => {
     const response = await UseRequestPostAutenticacao(payload)
     const currentUrl = window.location.href
     const separator = currentUrl.includes('?') ? '&' : '?'
     const newUrl = `${currentUrl}${separator}token=${response.id_acesso}`
     window.location.href = newUrl
+    localStorage.setItem('TKC', response.id_acesso)
   }
 
   const formik = useFormik({
