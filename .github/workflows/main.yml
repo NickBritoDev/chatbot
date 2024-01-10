@@ -1,0 +1,35 @@
+name: CI-react-chat-app-pwa
+
+on:
+  push:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build Aplicacao
+        run: npm run build
+
+      - uses: appleboy/scp-action@master
+        with:
+          host: "54.232.67.141"
+          port: "2220"
+          username: "ubuntu"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./"
+          target: "/etc/server-web/frontend-chatbot-pwa"
+          exclude: "/node_modules/"
