@@ -8,11 +8,10 @@ import { GoDependabot } from 'react-icons/go'
 export default function LayoutChat () {
   return (
     <ChakraProvider>
-
-      <Box overflow={'hidden'} bg="white" bgImage={logo}
+      <Box overflowX={'hidden'} overflowY={'scroll'} bg="white" bgImage={logo}
         bgPosition="center"
         bgRepeat="no-repeat"
-        w="100%" h={'100vh'}>
+        w="100%" h={'82vh'}>
 
         <Flex w={'100%'} pos={'fixed'} bg={'gray.600'} textAlign={'center'} alignItems={'center'} borderRadius={'0 0 25px 25px'} zIndex={9999}>
           <Wrap textAlign={'center'} w={'100%'} display={'flex'} alignItems={'center'} px={4} py={1} >

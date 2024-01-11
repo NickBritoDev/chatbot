@@ -3,7 +3,7 @@ import React from 'react'
 import { FiMenu, FiChevronDown } from 'react-icons/fi'
 
 import {
-  IconButton, SkeletonCircle, SkeletonText, Stack, Skeleton,
+  IconButton, SkeletonCircle, Stack, Skeleton,
   Box,
   Flex,
   HStack,
@@ -30,10 +30,8 @@ export default function LoadingPageFull () {
         {...rest}>
         <Box padding='6' boxShadow='lg' bg='white'>
           <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={1} spacing='4' skeletonHeight='2' />
         </Box>
         <Box padding='6' boxShadow='lg' bg='white'>
-          <SkeletonText mt='4' noOfLines={5} spacing='4' skeletonHeight='2' />
         </Box>
       </Box>
     )
@@ -119,7 +117,6 @@ export default function LoadingPageFull () {
         <Stack>
           <Box padding='6' boxShadow='lg' bg='white'>
             <SkeletonCircle size='10' />
-            <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
           </Box>
         </Stack>
       </Box>

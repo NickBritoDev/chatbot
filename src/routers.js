@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-operators */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useRoutes, useLocation } from 'react-router-dom'
@@ -12,15 +12,28 @@ import Chat from './pages/chat/index'
 import PAGE401 from './pages/errors/401/index'
 import PAGE404 from './pages/errors/404/index'
 import PAGE500 from './pages/errors/500/index'
-import PaginaFormularios from './pages/paginaFormularios/index'
 import PaginaResposta from './pages/paginaResposta/index'
 import Login from './pages/public/login/index'
 import apiAdmin from './services/apiAdmin'
-import PaginaPainelAtendimento from './pages/paginaPainelAtendimento'
+import PaginaPainelAtendimento from './pages/atendimento/index'
 import PainelAtendimento from './layouts/PainelAtendimento'
+import Atendimento from './pages/atendimento'
 
 export default function Router () {
   const { features } = useSelector((state) => state.perfil)
+
+  const [codePage, setCodePage] = useState(localStorage.getItem('codePage'))
+
+  useEffect(() => {
+    const updateCodePage = () => {
+      setCodePage(localStorage.getItem('codePage'))
+    }
+
+    window.addEventListener('storage', updateCodePage)
+    return () => {
+      window.removeEventListener('storage', updateCodePage)
+    }
+  }, [])
 
   const location = useLocation()
   const { data, isLoading } = useQuery(
@@ -41,16 +54,14 @@ export default function Router () {
     {
       path: '/app',
       children: [
-        { path: 'chat', element: <Chat /> }
+        { path: 'chat', element: !codePage ? <Chat /> : <Atendimento /> }
       ]
     },
     {
       path: '/chatResponse',
       element: <ChatApp />,
       children: [
-        { path: 'selectPage', element: <PaginaResposta /> },
-        { path: 'formWeb', element: <PaginaFormularios /> }
-
+        { path: 'selectPage', element: <PaginaResposta /> }
       ]
     },
     {

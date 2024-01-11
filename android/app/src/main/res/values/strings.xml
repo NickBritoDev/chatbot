@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">chatbot</string>
-    <string name="title_activity_main">chatbot</string>
-    <string name="package_name">chatbotapp.portalmaisvalor.com</string>
-    <string name="custom_url_scheme">chatbotapp.portalmaisvalor.com</string>
-</resources>

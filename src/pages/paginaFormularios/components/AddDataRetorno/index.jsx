@@ -1,27 +1,28 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useState } from 'react'
 import { BsCalendar2Event } from 'react-icons/bs'
 import { useMutation } from 'react-query'
 
 import {
-  Icon, Image, Spinner, Text, useToast, FormControl, Flex, Box,
+  Icon, Spinner, useToast, FormControl, Flex, Box,
   FormLabel,
   Input,
   Heading, Button, FormErrorMessage, Divider, Select, Skeleton
 } from '@chakra-ui/react'
 import { useFormik, FormikProvider } from 'formik'
 
-import logo from '../../../../assets/icon.png'
 import handleButtonClick from '../../../../helpers/loadingButton/loadingButton'
 import api from '../../../../services/api'
 import { useGetBancos } from './hooks/useGetBancos'
 import { useGetHorariosAtendimentos } from './hooks/useGetHorariosAtendimentos'
 import formCreateFormsWeb from './schemaForm'
 
-export default function AddDataRetorno ({ formulario }) {
+const AddDataRetorno = ({ nome, codpage }) => {
   const [isLoadingButton, setIsLoadingButton] = useState(false)
   const toast = useToast()
-  const { nome, urlPost, codpage } = formulario
   const { isLoading, data } = useGetBancos()
   const listaBancos = data?.bancos || []
   const { isLoading: horariosAtendimentosLoading, data: horariosDeAtendimentos } = useGetHorariosAtendimentos()
@@ -40,6 +41,9 @@ export default function AddDataRetorno ({ formulario }) {
     onSubmit: (payload) => {
       payload.codpage = codpage
       handlerCadastrandoDataDeRetorno.mutate(payload)
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
     }
   })
 
@@ -54,7 +58,7 @@ export default function AddDataRetorno ({ formulario }) {
   const { values, errors, touched, handleSubmit, resetForm, handleChange } = formik
 
   const handlerCadastrandoDataDeRetorno = useMutation(async (payload) => {
-    const response = await api.post('/v1/api/public/' + urlPost, payload)
+    const response = await api.post('/v1/api/public/cadastrarDataDeRetornoCliente', payload)
     return response.data
   }, {
     onSuccess: (data) => {
@@ -81,10 +85,8 @@ export default function AddDataRetorno ({ formulario }) {
 
   return (
     <>
-      <Flex flexDir={'column'} align={'center'} justify='center' h='max-content' m={0} fontSize='md'>
-        <Image mt={-4} width={'70px'} src={logo} />
-        <Text textTransform={'uppercase'} fontWeight={'bold'} fontSize={18}>Portal Mais Valor</Text>
-        <Box boxShadow={'2xl'} bg='white' p={8} w={'100vh'} rounded='md' mt={2}>
+      <Flex pos={'fixed'} zIndex={9999} top={20} flexDir={'column'} align={'center'} bg={'white'} justify='center' h='100vh' m={0} fontSize='md'>
+        <Box boxShadow={'2xl'} bg='white' p={8} w={'100vw'} rounded='md' mt={-40}>
           <Flex alignItems={'center'} justifyContent={'space-between'}>
             <Flex flexDir={'column'}>
               <Heading fontSize={20}>Solicitação de Data de Retorno</Heading>
@@ -178,7 +180,7 @@ export default function AddDataRetorno ({ formulario }) {
                 type='submit'
                 width='full'
                 variant='solid'
-                onClick={() => handleButtonClick(setIsLoadingButton)}
+                onClick={() => { handleButtonClick(setIsLoadingButton) }}
                 {...!canSubmit && isLoadingButton}
               >
                 {isLoadingButton ? 'Solicitando Data...' : 'Solicitar Data'}
@@ -191,3 +193,5 @@ export default function AddDataRetorno ({ formulario }) {
     </>
   )
 }
+
+export default AddDataRetorno

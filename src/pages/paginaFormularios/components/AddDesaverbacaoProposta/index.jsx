@@ -1,26 +1,27 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useState } from 'react'
 import { BsBank2 } from 'react-icons/bs'
 import { useMutation } from 'react-query'
 
 import {
-  Icon, Image, Input, Spinner, Text, FormControl, Flex, Box,
+  Icon, Input, Spinner, FormControl, Flex, Box,
   FormLabel,
   Heading, Button, FormErrorMessage, Divider, Select, Skeleton, useToast
 } from '@chakra-ui/react'
 import { useFormik, FormikProvider } from 'formik'
 
-import logo from '../../../../assets/icon.png'
 import handleButtonClick from '../../../../helpers/loadingButton/loadingButton'
 import mask from '../../../../helpers/mascaras/maskCfpCnpj'
 import api from '../../../../services/api'
 import { useGetBancos } from './hooks/useGetBancos'
 import formCreateFormsWeb from './schemaForm'
 
-export default function AddDesaverbacaoProposta ({ formulario }) {
+const AddDesaverbacaoProposta = ({ nome, codpage }) => {
   const [isLoadingButton, setIsLoadingButton] = useState(false)
-  const { nome, urlPost, codpage } = formulario
   const { isLoading, data } = useGetBancos()
   const listaBancos = data?.bancos || []
   const toast = useToast()
@@ -37,6 +38,9 @@ export default function AddDesaverbacaoProposta ({ formulario }) {
     onSubmit: (payload) => {
       payload.codpage = codpage
       handlerSolicitacaoDesaverbamento.mutate(payload)
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
     }
   })
 
@@ -58,7 +62,7 @@ export default function AddDesaverbacaoProposta ({ formulario }) {
   const { values, errors, touched, handleSubmit, resetForm, handleChange } = formik
 
   const handlerSolicitacaoDesaverbamento = useMutation(async (payload) => {
-    const response = await api.post('/v1/api/public/' + urlPost, payload)
+    const response = await api.post('/v1/api/public/cadastrar-desabervacao-proposta', payload)
     return response.data
   }, {
     onSuccess: (data) => {
@@ -85,10 +89,8 @@ export default function AddDesaverbacaoProposta ({ formulario }) {
 
   return (
     <>
-      <Flex flexDir={'column'} align={'center'} justify='center' h='max-content' m={0} fontSize='md'>
-        <Image mt={-4} width={'70px'} src={logo} />
-        <Text textTransform={'uppercase'} fontWeight={'bold'} fontSize={18}>Portal Mais Valor</Text>
-        <Box boxShadow={'2xl'} bg='white' p={8} w={'100vh'} rounded='md' mt={2}>
+      <Flex pos={'fixed'} zIndex={9999} top={20} flexDir={'column'} align={'center'} bg={'white'} justify='center' h='100vh' m={0} fontSize='md'>
+        <Box boxShadow={'2xl'} bg='white' p={8} w={'100vw'} rounded='md' mt={-40}>
           <Flex alignItems={'center'} justifyContent={'space-between'}>
             <Flex flexDir={'column'}>
               <Heading fontSize={20}>Solicitação para desaverbação de proposta</Heading>
@@ -183,7 +185,7 @@ export default function AddDesaverbacaoProposta ({ formulario }) {
                 type='submit'
                 width='full'
                 variant='solid'
-                onClick={() => handleButtonClick(setIsLoadingButton)}
+                onClick={() => { handleButtonClick(setIsLoadingButton) }}
                 {...!canSubmit && isLoadingButton}
               >
                 {isLoadingButton ? 'Solicitando Desaverbação...' : 'Solicitar Desaverbação'}
@@ -196,3 +198,5 @@ export default function AddDesaverbacaoProposta ({ formulario }) {
     </>
   )
 }
+
+export default AddDesaverbacaoProposta

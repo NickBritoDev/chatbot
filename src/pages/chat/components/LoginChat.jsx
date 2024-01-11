@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/prop-types */
+
 import React from 'react'
 import {
   Button,
@@ -23,20 +26,21 @@ import { useFormik } from 'formik'
 import formValidadtionSchema from '../schema/formSchema'
 
 export default function LoginChat () {
-  const { UseRequestPostAutenticacao, isLoading } = usePostAutenticacao()
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
+  const { UseRequestPostAutenticacao } = usePostAutenticacao() // Utilizamos o hook inteiro, não destructuring
 
-  if (localStorage.getItem('TKC') && !window.location.href.includes('token=')) {
+  const [show, setShow] = React.useState(false)
+  const handleClick = () => { setShow(!show) }
+
+  if ((localStorage.getItem('TKC') != null) && !window.location.href.includes('token=')) {
     const currentUrl = window.location.href
     const separator = currentUrl.includes('?') ? '&' : '?'
     const newUrl = `${currentUrl}${separator}token=${localStorage.getItem('TKC')}`
     window.location.href = newUrl
-    return
+    return null
   }
 
   const handleLogin = async (payload) => {
-    const response = await UseRequestPostAutenticacao(payload)
+    const response = await UseRequestPostAutenticacao(payload) // Corrigindo o uso da função
     const currentUrl = window.location.href
     const separator = currentUrl.includes('?') ? '&' : '?'
     const newUrl = `${currentUrl}${separator}token=${response.id_acesso}`
@@ -53,10 +57,11 @@ export default function LoginChat () {
     validationSchema: formValidadtionSchema,
     onSubmit: (payload) => {
       handleLogin(payload)
-      resetForm()
+      formik.resetForm() // Utilizando resetForm do formik
     }
   })
 
+  // eslint-disable-next-line no-unused-vars
   const { values, errors, touched, handleSubmit, resetForm, handleChange } = formik
 
   return (
@@ -91,7 +96,7 @@ export default function LoginChat () {
 
         <VStack className='scale-up-bottom' boxShadow={'2xl'} pos={'absolute'} bottom={-1} borderRadius={'50px 50px 0 0'} w={'100%'} bg={'gray.600'} >
           <form onSubmit={handleSubmit}>
-            <FormControl id="usuario" isInvalid={errors.usuario && touched.usuario}>
+            <FormControl id="usuario" >
               <FormLabel fontSize={{ base: '16', md: '18', lg: '20' }} mt={8} ml={1}>Usuario</FormLabel>
               <Input
                 fontSize={{ base: '14', md: '16', lg: '18' }}
@@ -109,7 +114,7 @@ export default function LoginChat () {
               )}
             </FormControl>
 
-            <FormControl id="senha" isInvalid={errors.senha && touched.senha}>
+            <FormControl id="senha" >
               <FormLabel fontSize={{ base: '16', md: '18', lg: '20' }} mt={4} ml={1}>Senha</FormLabel>
               <InputGroup size='md'>
                 <Input
@@ -135,7 +140,7 @@ export default function LoginChat () {
                 )}
             </FormControl>
             <Button mt={8} fontSize={{ base: '16', md: '18', lg: '20' }} w={'100%'} mb={12} borderRadius={'25px'} type="submit" colorScheme="green">
-              {isLoading ? 'Acessando...' : 'Acessar Chatbot'}
+              Acessar Chatbot
             </Button>
           </form>
         </VStack>
