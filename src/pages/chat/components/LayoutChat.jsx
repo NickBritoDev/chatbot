@@ -13,7 +13,7 @@ export default function LayoutChat () {
         bgRepeat="no-repeat"
         w="100%" h={'82vh'}>
 
-        <Flex w={'100%'} pos={'fixed'} bg={'gray.600'} textAlign={'center'} alignItems={'center'} borderRadius={'0 0 25px 25px'} zIndex={9999}>
+        <Flex w={'100%'} pos={'fixed'} bg={'gray.600'} textAlign={'center'} alignItems={'center'} borderRadius={'0 0 25px 25px'} >
           <Wrap textAlign={'center'} w={'100%'} display={'flex'} alignItems={'center'} px={4} py={1} >
             <WrapItem border={'solid 2px white'} borderRadius={'50%'} boxShadow={'2xl'}>
               <Avatar name='Dan Abrahmov' src={bot} >
