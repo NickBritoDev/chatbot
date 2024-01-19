@@ -19,6 +19,7 @@ import mask from '../../../../helpers/mascaras/maskCfpCnpj'
 import api from '../../../../services/api'
 import { useGetBancos } from './hooks/useGetBancos'
 import formCreateFormsWeb from './schemaForm'
+import ButtonNavigate from '../ButtonNavigate'
 
 const AddDesaverbacaoProposta = ({ nome, codpage }) => {
   const [isLoadingButton, setIsLoadingButton] = useState(false)
@@ -89,8 +90,9 @@ const AddDesaverbacaoProposta = ({ nome, codpage }) => {
 
   return (
     <>
-      <Flex pos={'fixed'} zIndex={9999} top={20} flexDir={'column'} align={'center'} bg={'white'} justify='center' h='100vh' m={0} fontSize='md'>
-        <Box boxShadow={'2xl'} bg='white' p={8} w={'100vw'} rounded='md' mt={-40}>
+      <ButtonNavigate />
+      <Flex pos={'fixed'} zIndex={9999} top={0} flexDir={'column'} align={'center'} bg={'white'} justify='center' h='100vh' m={0} fontSize='md'>
+        <Box bg='white' p={8} w={'100vw'} rounded='md' mt={-38}>
           <Flex alignItems={'center'} justifyContent={'space-between'}>
             <Flex flexDir={'column'}>
               <Heading fontSize={20}>Solicitação para desaverbação de proposta</Heading>

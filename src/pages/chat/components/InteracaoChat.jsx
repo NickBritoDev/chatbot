@@ -1,4 +1,4 @@
-import { Box, Button, ChakraProvider, Input, VStack } from '@chakra-ui/react'
+import { Box, Button, ChakraProvider, Flex, Input, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useGetInicializacao } from '../hooks/useGetInicializacao'
 import '../animations/formButtonsChat.css'
@@ -10,6 +10,7 @@ import AddNovoConvenio from '../../paginaFormularios/components/AddNovoConvenio/
 import AddCancelamentoDeProposta from '../../paginaFormularios/components/AddCancelamentoDeProposta/index'
 import AddDesaverbacaoProposta from '../../paginaFormularios/components/AddDesaverbacaoProposta/index'
 import AddDataRetorno from '../../paginaFormularios/components/AddDataRetorno/index'
+import { FaRegArrowAltCircleLeft } from 'react-icons/fa'
 
 // isLoading: isLoadingDadosInicializacao
 export default function InteracaoChat () {
@@ -321,15 +322,26 @@ export default function InteracaoChat () {
         </VStack>
 
         {visibilidadeInput &&
-          <Box gap={2} display={'flex'} alignItems={'center'} justifyContent={'center'} ml={-2} w={'100%'} borderRadius={'25px 25px 0 0'} p={4} bg={'gray.600'} pos={'absolute'} bottom={'-2'} >
-            <Input bg={'white'} rounded={'2xl'} mt={-1}
-              onChange={(e) => { setValueInput(e.target.value) }}
-              value={valueInput}
-              placeholder='Digite... ' />
-            <Button _hover={{ bg: 'transparent' }} bg={'transparent'} mt={-1} rounded={'lg'} onClick={valorInput}>
-              <IoMdSend color='white' fontSize={30} />
+          <Flex>
+            <Button w={'max-content'} pos={'absolute'} right={4} margin={' 10px auto'} gap={2}
+              display={'flex'} alignItems={'center'} justifyContent={'center'}
+              borderRadius={'20px 0 20px 20px'}
+              boxShadow={'lg'}
+              onClick={() => {
+                location.reload()
+              }}>
+              <FaRegArrowAltCircleLeft fontSize={20} /> Click para voltar ao menu inicial
             </Button>
-          </Box>
+            <Box gap={2} display={'flex'} alignItems={'center'} justifyContent={'center'} ml={-2} w={'100%'} borderRadius={'25px 25px 0 0'} p={4} bg={'gray.600'} pos={'absolute'} bottom={'-2'} >
+              <Input bg={'white'} rounded={'2xl'} mt={-1}
+                onChange={(e) => { setValueInput(e.target.value) }}
+                value={valueInput}
+                placeholder='Digite... ' />
+              <Button _hover={{ bg: 'transparent' }} bg={'transparent'} mt={-1} rounded={'lg'} onClick={valorInput}>
+                <IoMdSend color='white' fontSize={30} />
+              </Button>
+            </Box>
+          </Flex>
         }
       </Box>
     </ChakraProvider>
